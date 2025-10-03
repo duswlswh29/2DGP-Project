@@ -40,7 +40,7 @@ class Chunli:
       if self.state=='idle':
           self.idle_image.clip_draw(self.frame * 90, 0, 90,180, self.x, self.y)
       elif self.state=='walk':
-          self.walk_image.clip_draw(self.frame*125,0,125,250,self.x,self.y)
+          self.walk_image.clip_draw(self.frame*125,0,125,250,self.x,self.y,97,187)
 
 
 def handle_events():

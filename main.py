@@ -20,18 +20,30 @@ class Chunli:
     def __init__(self,x,y):
         self.x=90
         self.y=100
+        self.state='idle'
+        self.dir=1
         self.frame=0
+
         self.image=load_image('chunli-idle1.png')
+        self.image=load_image('chunli-walk.png')
 
         self.w=120 #캔버스에 그릴 너비
         self.h=200 #캔버스에 그릴 높이
 
     def update(self):
+     if self.state=='idle':
         self.frame=(self.frame+1) % 4
-        pass
+     elif self.state=='walk':
+          self.frame=(self.frame+1)%8
+          self.x+=self.dir*5
+
+
 
     def draw(self):
-        self.image.clip_draw(self.frame * 90, 0, 90,180, self.x, self.y)
+      if self.state=='idle':
+          self.image.clip_draw(self.frame * 90, 0, 90,180, self.x, self.y)
+      elif self.state=='walk':
+          self.image.clip_draw(self.frame*94,0,94,115,self.x,self.y)
 
 
 def handle_events():
@@ -40,8 +52,19 @@ def handle_events():
    for event in events:
        if event.type==SDL_QUIT:
            running=False
-       elif event.type==SDL_KEYDOWN and event.key==SDLK_ESCAPE:
-           running=False
+       elif event.type==SDL_KEYDOWN:
+           if event.key==SDLK_ESCAPE:
+            running=False
+       elif event.key==SDLK_d:
+           chunli.state=='walk'
+           chunli.dir=1
+       elif event.key==SDLK_a:
+           chunli.state=='idle'
+           chunli.dir=-1
+
+       elif event.type==SDL_KEYUP:
+           chunli.state='idle'
+
 pass
 
 

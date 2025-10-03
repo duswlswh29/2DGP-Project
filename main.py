@@ -56,7 +56,7 @@ def handle_events():
             chunli.state='walk'
             chunli.dir=1
            elif event.key==SDLK_a:
-            chunli.state='idle'
+            chunli.state='walk'
             chunli.dir=-1
 
        elif event.type==SDL_KEYUP:
@@ -93,6 +93,10 @@ while running:
     handle_events() #입력 처리
     update_world() #게임 로직 업데이트
     render_world() #렌더링
-    delay(0.1) #프레임 제어
+    if chunli.state == 'idle':
+        delay(0.1)
+    elif chunli.state=='walk':
+        delay(0.05)
+    #delay(0.05) #프레임 제어
 
 close_canvas()

@@ -9,8 +9,7 @@ class Background:
 
 
    def draw(self):
-
-       self.image.draw(400,300,800,600)
+        self.image.draw(400,300,800,600)
    def update(self):
 
        pass
@@ -24,8 +23,8 @@ class Chunli:
         self.dir=1
         self.frame=0
 
-        self.image=load_image('chunli-idle1.png')
-        self.image=load_image('chunli-walk.png')
+        self.idle_image=load_image('chunli-idle1.png')
+        self.walk_image=load_image('chunli-walk.png')
 
         self.w=120 #캔버스에 그릴 너비
         self.h=200 #캔버스에 그릴 높이
@@ -37,13 +36,11 @@ class Chunli:
           self.frame=(self.frame+1)%8
           self.x+=self.dir*5
 
-
-
     def draw(self):
       if self.state=='idle':
-          self.image.clip_draw(self.frame * 90, 0, 90,180, self.x, self.y)
+          self.idle_image.clip_draw(self.frame * 90, 0, 90,180, self.x, self.y)
       elif self.state=='walk':
-          self.image.clip_draw(self.frame*94,0,94,115,self.x,self.y)
+          self.walk_image.clip_draw(self.frame*125,0,125,250,self.x,self.y)
 
 
 def handle_events():
@@ -55,12 +52,12 @@ def handle_events():
        elif event.type==SDL_KEYDOWN:
            if event.key==SDLK_ESCAPE:
             running=False
-       elif event.key==SDLK_d:
-           chunli.state=='walk'
-           chunli.dir=1
-       elif event.key==SDLK_a:
-           chunli.state=='idle'
-           chunli.dir=-1
+           elif event.key==SDLK_d:
+            chunli.state='walk'
+            chunli.dir=1
+           elif event.key==SDLK_a:
+            chunli.state='idle'
+            chunli.dir=-1
 
        elif event.type==SDL_KEYUP:
            chunli.state='idle'
@@ -89,7 +86,7 @@ def render_world():
     chunli.draw()
     update_canvas()
 pass
-open_canvas()
+open_canvas()#800 600
 reset_world()
 
 while running:
@@ -97,4 +94,5 @@ while running:
     update_world() #게임 로직 업데이트
     render_world() #렌더링
     delay(0.1) #프레임 제어
+
 close_canvas()

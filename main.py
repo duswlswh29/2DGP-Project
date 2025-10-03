@@ -25,6 +25,7 @@ class Chunli:
 
         self.idle_image=load_image('chunli-idle1.png')
         self.walk_image=load_image('chunli-walk.png')
+        self.jump_image=load_image('chunli-jump.png')
 
         self.w=120 #캔버스에 그릴 너비
         self.h=200 #캔버스에 그릴 높이
@@ -35,13 +36,16 @@ class Chunli:
      elif self.state=='walk':
           self.frame=(self.frame+1)%8
           self.x+=self.dir*5
+     elif self.state=='jump':
+         self.frame=(self.frame+1)%4
 
     def draw(self):
       if self.state=='idle':
           self.idle_image.clip_draw(self.frame * 90, 0, 90,180, self.x, self.y)
       elif self.state=='walk':
           self.walk_image.clip_draw(self.frame*125,0,125,250,self.x,self.y,97,187)
-
+      elif self.state=='jump':
+          self.jump_image.clip_draw(self.frame*116,0,116,266,self.x,self.y,88,174)
 
 def handle_events():
    global running
@@ -58,7 +62,8 @@ def handle_events():
            elif event.key==SDLK_a:
             chunli.state='walk'
             chunli.dir=-1
-
+           elif event.key==SDLK_w:
+             chunli.state='jump'
        elif event.type==SDL_KEYUP:
            chunli.state='idle'
 
@@ -97,6 +102,8 @@ while running:
         delay(0.1)
     elif chunli.state=='walk':
         delay(0.05)
+    elif chunli.state=='jump':
+        delay(0.2)
     #delay(0.05) #프레임 제어
 
 close_canvas()
